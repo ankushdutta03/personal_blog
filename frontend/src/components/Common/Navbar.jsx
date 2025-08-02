@@ -17,37 +17,35 @@ const Navbar = () => {
     navigate("/login");
   };
 
-  // Inject animations once
+  // Inject animations only once
   useEffect(() => {
-    const style = document.createElement("style");
-    style.innerHTML = `
-      @keyframes slideIn {
-        from {
-          opacity: 0;
-          transform: translateY(-20px);
+    const styleId = "navbar-animations";
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement("style");
+      style.id = styleId;
+      style.innerHTML = `
+        @keyframes slideIn {
+          from { opacity: 0; transform: translateY(-20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-        to {
-          opacity: 1;
-          transform: translateY(0);
+
+        @keyframes pulse {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+          100% { transform: scale(1); }
         }
-      }
 
-      @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-        100% { transform: scale(1); }
-      }
+        .nav-animated-link:hover {
+          animation: pulse 0.3s ease-in-out;
+          background-color: rgba(255, 255, 255, 0.2);
+        }
 
-      .nav-animated-link:hover {
-        animation: pulse 0.3s ease-in-out;
-        background-color: rgba(255, 255, 255, 0.2);
-      }
-
-      .nav-logout:hover {
-        background-color: rgba(255, 75, 92, 0.15);
-      }
-    `;
-    document.head.appendChild(style);
+        .nav-logout:hover {
+          background-color: rgba(255, 75, 92, 0.15);
+        }
+      `;
+      document.head.appendChild(style);
+    }
   }, []);
 
   return (
@@ -59,8 +57,14 @@ const Navbar = () => {
 
       {userId ? (
         <>
-          <Link to="/create" style={styles.link} className="nav-animated-link">Create</Link>
-          <span onClick={handleLogout} style={styles.logout} className="nav-animated-link nav-logout">Logout</span>
+          <Link to="/create" style={styles.link} className="nav-animated-link">📝 Create Blog</Link>
+          <span
+            onClick={handleLogout}
+            style={{ ...styles.link, ...styles.logout }}
+            className="nav-animated-link nav-logout"
+          >
+            🚪 Logout
+          </span>
         </>
       ) : (
         <>
@@ -98,12 +102,6 @@ const styles = {
   logout: {
     color: "#ff4b5c",
     cursor: "pointer",
-    fontWeight: "600",
-    fontSize: "1rem",
-    padding: "8px 14px",
-    borderRadius: "6px",
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
-    transition: "all 0.3s ease",
   },
 };
 
