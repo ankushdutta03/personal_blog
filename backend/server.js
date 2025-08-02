@@ -11,17 +11,18 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-app.listen(process.env.PORT || 5000, () => {
-  console.log(`Server running on port ${process.env.PORT || 5000}`);
-});
-
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'http://localhost:5173', // You can replace this with your frontend domain after deployment
   credentials: true
 }));
 app.use(express.json());
+
+// Test route for Render to confirm app is live
+app.get('/', (req, res) => {
+  res.send('✅ Backend is live');
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -37,9 +38,9 @@ mongoose
   .then(() => {
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
-      console.log("✅ MongoDB connected");
+      console.log('✅ MongoDB connected');
     });
   })
   .catch((err) => {
-    console.error("❌ MongoDB connection failed:", err.message);
+    console.error('❌ MongoDB connection failed:', err.message);
   });
