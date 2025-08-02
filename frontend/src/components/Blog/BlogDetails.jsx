@@ -7,21 +7,31 @@ const BlogDetails = () => {
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const userId = localStorage.getItem("userId");
-
+  const token = localStorage.getItem("token");
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    axios
-      .get(`${API_URL}/posts/${id}`)
-      .then((res) => setPost(res.data))
-      .catch((err) => console.error(err));
-  }, [id]);
+    const fetchPost = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/posts/${id}`);
+        setPost(res.data);
+      } catch (err) {
+        console.error("Failed to fetch post:", err);
+      }
+    };
+
+    fetchPost();
+  }, [API_URL, id]); // ✅ Added API_URL to dependency array
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`${API_URL}/posts/${id}`);
+      await axios.delete(`${API_URL}/posts/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       alert("Blog deleted successfully");
-      navigate("/");
+      navigate("/blogs");
     } catch (err) {
       console.error("Delete failed:", err);
       alert("Error deleting blog");
@@ -32,6 +42,7 @@ const BlogDetails = () => {
     navigate(`/edit/${id}`);
   };
 
+  // inject animation only once
   useEffect(() => {
     const style = document.createElement("style");
     style.innerHTML = `
@@ -47,6 +58,9 @@ const BlogDetails = () => {
       }
     `;
     document.head.appendChild(style);
+    return () => {
+      document.head.removeChild(style);
+    };
   }, []);
 
   if (!post) return <p style={styles.loading}>Loading...</p>;
