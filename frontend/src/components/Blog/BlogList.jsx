@@ -10,7 +10,7 @@ const BlogList = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/posts");
+        const res = await axios.get("https://personal-blog-backend-yuwu.onrender.com/api/posts");
         setPosts(res.data);
       } catch (err) {
         console.error("Error fetching posts:", err);

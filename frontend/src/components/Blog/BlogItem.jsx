@@ -12,7 +12,7 @@ const BlogItem = ({ post, currentUserId }) => {
     try {
       const token = localStorage.getItem("token");
 
-      await axios.delete(`http://localhost:5000/api/posts/${post._id}`, {
+      await axios.delete(`https://personal-blog-backend-yuwu.onrender.com/api/posts/${post._id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
