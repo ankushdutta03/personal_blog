@@ -19,7 +19,12 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// ✅ Simple test route to confirm backend is reachable
+// ✅ Root route for health check
+app.get('/', (req, res) => {
+  res.send('✅ Backend is live');
+});
+
+// ✅ API test route
 app.get('/api/test', (req, res) => {
   res.json({ message: '✅ API is working from Render!' });
 });
