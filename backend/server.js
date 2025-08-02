@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:5173', // You can replace this with your frontend domain after deployment
+  origin: 'https://personal-blog-frontend-yp6i.onrender.com', // ✅ Render frontend URL
   credentials: true
 }));
 app.use(express.json());
