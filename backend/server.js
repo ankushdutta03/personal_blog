@@ -14,14 +14,14 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: 'https://personal-blog-frontend-yp6i.onrender.com', // ✅ Render frontend URL
+  origin: ['http://localhost:5173', 'https://personal-blog-frontend-yp6i.onrender.com'],
   credentials: true
 }));
 app.use(express.json());
 
-// Test route for Render to confirm app is live
-app.get('/', (req, res) => {
-  res.send('✅ Backend is live');
+// ✅ Simple test route to confirm backend is reachable
+app.get('/api/test', (req, res) => {
+  res.json({ message: '✅ API is working from Render!' });
 });
 
 // Routes
