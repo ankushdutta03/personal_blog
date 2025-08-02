@@ -5,20 +5,11 @@ import { useNavigate } from "react-router-dom";
 // Keyframes and ripple animation
 const keyframes = `
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 @keyframes ripple {
-  to {
-    transform: scale(4);
-    opacity: 0;
-  }
+  to { transform: scale(4); opacity: 0; }
 }
 `;
 
@@ -71,8 +62,13 @@ const Login = () => {
         withCredentials: true,
       });
 
+      // Save token & userId to localStorage
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userId", response.data.user._id);
+
+      // 🔁 Trigger storage event for other tabs/components
+      window.dispatchEvent(new Event("storage"));
+
       navigate("/blogs");
     } catch (err) {
       setError(err.response?.data?.message || "❌ Login failed. Please try again.");

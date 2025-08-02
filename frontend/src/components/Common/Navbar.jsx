@@ -3,21 +3,27 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState(localStorage.getItem("userId"));
 
+  // Listen for localStorage changes and update userId
   useEffect(() => {
-    const storedUserId = localStorage.getItem("userId");
-    setUserId(storedUserId);
+    const handleStorageChange = () => {
+      setUserId(localStorage.getItem("userId"));
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("userId");
     localStorage.removeItem("token");
     setUserId(null);
+    window.dispatchEvent(new Event("storage")); // Trigger update
     navigate("/login");
   };
 
-  // Inject animations only once
+  // Inject animations once
   useEffect(() => {
     const styleId = "navbar-animations";
     if (!document.getElementById(styleId)) {
