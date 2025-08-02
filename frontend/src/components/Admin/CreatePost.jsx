@@ -12,7 +12,7 @@ const CreatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const token = localStorage.getItem("token"); // ✅ get JWT token from localStorage
+    const token = localStorage.getItem("token"); // ✅ Get JWT token from localStorage
     if (!token) {
       setMessage("User not logged in.");
       return;
@@ -20,14 +20,14 @@ const CreatePost = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/posts",
+        `${import.meta.env.VITE_API_URL}/posts`, // ✅ Use deployed backend URL from .env
         {
           title: form.title,
           content: form.content,
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // ✅ attach token in Authorization header
+            Authorization: `Bearer ${token}`, // ✅ Attach token in Authorization header
           },
         }
       );

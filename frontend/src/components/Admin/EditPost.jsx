@@ -11,7 +11,7 @@ const EditPost = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/posts/${id}`)
+      .get(`${import.meta.env.VITE_API_URL}/posts/${id}`) // ✅ Updated to use .env
       .then((res) => setFormData({ title: res.data.title, content: res.data.content }))
       .catch((err) => console.error("Failed to fetch post:", err));
   }, [id]);
@@ -25,9 +25,9 @@ const EditPost = () => {
     const token = localStorage.getItem("token");
 
     try {
-      await axios.put(`http://localhost:5000/api/posts/${id}`, formData, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/posts/${id}`, formData, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, // ✅ Attach token
         },
       });
       alert("Post updated!");
