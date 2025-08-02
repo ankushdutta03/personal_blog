@@ -28,6 +28,8 @@ if (typeof document !== "undefined" && !document.getElementById("register-keyfra
   document.head.appendChild(style);
 }
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Register() {
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
@@ -43,7 +45,7 @@ function Register() {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/register", formData, {
+      const res = await axios.post(`${API_URL}/auth/register`, formData, {
         withCredentials: true,
       });
 

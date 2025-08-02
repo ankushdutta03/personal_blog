@@ -8,16 +8,18 @@ const BlogDetails = () => {
   const [post, setPost] = useState(null);
   const userId = localStorage.getItem("userId");
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/posts/${id}`)
+      .get(`${API_URL}/posts/${id}`)
       .then((res) => setPost(res.data))
       .catch((err) => console.error(err));
   }, [id]);
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/posts/${id}`);
+      await axios.delete(`${API_URL}/posts/${id}`);
       alert("Blog deleted successfully");
       navigate("/");
     } catch (err) {
